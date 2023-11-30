@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { db } from "@/db";
+import { redirect } from "next/navigation";
 
 export default async function BlockIDPage({
   params,
@@ -11,6 +12,18 @@ export default async function BlockIDPage({
       id: Number(params.id),
     },
   });
+
+  const deleteBlock = async () => {
+    "use server";
+
+    await db.block.delete({
+      where: {
+        id: Number(params.id),
+      },
+    });
+
+    redirect("/");
+  };
 
   return (
     <>
@@ -56,22 +69,23 @@ export default async function BlockIDPage({
           ></textarea>
         </div>
       </div>
-      <div className="flex flex-row py-1 justify-center">
-        <Link
-          type="button"
-          className="basis-24 bg-indigo-500 rounded mx-2 text-white text-center"
-          href={"/blocks/" + params.id + "/edit"}
-        >
-          Edit
-        </Link>
-        <Link
-          type="button"
-          className="basis-24 bg-indigo-500 rounded mx-2 text-white text-center"
-          href={"/blocks/" + params.id + "/delete"}
-        >
-          Delete
-        </Link>
-      </div>
+      <form action={deleteBlock}>
+        <div className="flex flex-row py-1 justify-center">
+          <Link
+            type="button"
+            className="basis-24 bg-indigo-500 rounded mx-2 text-white text-center"
+            href={"/blocks/" + params.id + "/edit"}
+          >
+            Edit
+          </Link>
+          <button
+            type="submit"
+            className="basis-24 bg-indigo-500 rounded mx-2 text-white text-center"
+          >
+            Delete
+          </button>
+        </div>
+      </form>
     </>
   );
 }
