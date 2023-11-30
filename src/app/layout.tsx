@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="mx-auto"><Link href="/" className="mx-auto">CodeBlocks</Link></div>
-        <div className="container mx-auto my-20">{children}</div>
+        <div className="mx-10 my-5"><Link href="/" className="text-4xl font-bold">CodeBlocks</Link></div>
+        <div className="container max-w-lg mx-auto my-20">{children}</div>
       </body>
     </html>
   );
